@@ -17,7 +17,7 @@ RUN apt-get update && apt-get install -y \
     && chmod go+r /etc/apt/keyrings/githubcli-archive-keyring.gpg \
     && echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | tee /etc/apt/sources.list.d/github-cli.list > /dev/null \
     && curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
-    && apt-get update && apt-get install -y gh nodejs docker-ce-cli docker-compose-plugin \
+    && apt-get update && apt-get install -y gh nodejs docker-ce-cli docker-compose-plugin jq vim \
     && rm -rf /var/lib/apt/lists/*
 
 # 2. Install OpenClaw using the official script
@@ -36,6 +36,8 @@ RUN chmod +x /entrypoint.sh
 # 4. Set environment
 RUN mkdir -p /home/node/.openclaw
 ENV HOME=/home/node
+ENV NO_ONBOARD=1
+ENV OPENCLAW_NO_PROMPT=1
 WORKDIR /home/node
 ENV TERM=xterm-256color
 # Add all possible OpenClaw paths to PATH
