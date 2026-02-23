@@ -26,6 +26,28 @@ RUN export NO_ONBOARD=1 && \
     export OPENCLAW_NO_PROMPT=1 && \
     (curl -fsSL https://openclaw.ai/install.sh | bash || true)
 
+# 3. Aggressive Memory Optimization: Remove bulky/unused extensions
+# memory-lancedb is 40MB on disk, and channel plugins add significant overhead
+RUN rm -rf /usr/lib/node_modules/openclaw/extensions/memory-lancedb && \
+    rm -rf /usr/lib/node_modules/openclaw/extensions/discord && \
+    rm -rf /usr/lib/node_modules/openclaw/extensions/slack && \
+    rm -rf /usr/lib/node_modules/openclaw/extensions/telegram && \
+    rm -rf /usr/lib/node_modules/openclaw/extensions/whatsapp && \
+    rm -rf /usr/lib/node_modules/openclaw/extensions/signal && \
+    rm -rf /usr/lib/node_modules/openclaw/extensions/msteams && \
+    rm -rf /usr/lib/node_modules/openclaw/extensions/matrix && \
+    rm -rf /usr/lib/node_modules/openclaw/extensions/feishu && \
+    rm -rf /usr/lib/node_modules/openclaw/extensions/googlechat && \
+    rm -rf /usr/lib/node_modules/openclaw/extensions/line && \
+    rm -rf /usr/lib/node_modules/openclaw/extensions/mattermost && \
+    rm -rf /usr/lib/node_modules/openclaw/extensions/nextcloud-talk && \
+    rm -rf /usr/lib/node_modules/openclaw/extensions/nostr && \
+    rm -rf /usr/lib/node_modules/openclaw/extensions/synology-chat && \
+    rm -rf /usr/lib/node_modules/openclaw/extensions/twitch && \
+    rm -rf /usr/lib/node_modules/openclaw/extensions/zalo && \
+    rm -rf /usr/lib/node_modules/openclaw/extensions/zalouser && \
+    rm -rf /usr/lib/node_modules/openclaw/extensions/tlon
+
 # 2.5 Install opencode
 RUN curl -fsSL https://opencode.ai/install | bash
 

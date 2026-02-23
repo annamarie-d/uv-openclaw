@@ -9,6 +9,7 @@ services:
     environment:
       HOME: /home/node
       TERM: xterm-256color
+      NODE_OPTIONS: "--max-old-space-size=2048"
       OPENCLAW_GATEWAY_TOKEN: ${OPENCLAW_GATEWAY_TOKEN:?Please set OPENCLAW_GATEWAY_TOKEN}
       OPENCLAW_GATEWAY_PORT: ${OPENCLAW_GATEWAY_PORT:-18789}
       OPENCLAW_GATEWAY_BIND: ${OPENCLAW_GATEWAY_BIND:-lan}
@@ -25,6 +26,12 @@ services:
       BROWSERLESS_BASE_URL: ${BROWSERLESS_BASE_URL}
       BROWSERLESS_TOKEN: ${BROWSERLESS_TOKEN}
       OPENCLAW_OVERRIDE_CONFIG: ${OPENCLAW_OVERRIDE_CONFIG:-false}
+    deploy:
+      resources:
+        limits:
+          memory: 4G
+        reservations:
+          memory: 1G
     volumes:
       - openclaw_config:/home/node/.openclaw
       - /var/run/docker.sock:/var/run/docker.sock
