@@ -36,6 +36,14 @@ services:
       - openclaw_config:/home/node/.openclaw
     environment:
       - OPENCLAW_GATEWAY_TOKEN=your_secure_token
+      - CF_NETWORK=${CF_NETWORK}
+    networks:
+      - default
+
+networks:
+  default:
+    external: true
+    name: ${CF_NETWORK}
 ```
 
 ## Environment Variables
@@ -43,15 +51,46 @@ services:
 | Variable | Description | Default |
 | ---------- | ------------- | --------- |
 | `OPENCLAW_GATEWAY_TOKEN` | Token for Gateway authentication | (Required) |
+| `OPENCLAW_GATEWAY_PORT` | Internal port for the Gateway | `18789` |
+| `OPENCLAW_GATEWAY_BIND` | Network interface to bind to (`loopback`, `lan`, `all`) | `lan` |
+| `OPENCLAW_GATEWAY_ALLOW_INSECURE_AUTH` | Allow authentication over insecure HTTP | `true` |
+| `OPENCLAW_GATEWAY_DANGEROUSLY_DISABLE_DEVICE_AUTH` | Disable device pairing requirement | `true` |
+| `OPENCLAW_REQUIRE_CONTROL_UI_PAIRING` | Legacy pairing flag | `false` |
 | `DEFAULT_MODEL_PROVIDER` | Provider for the primary agent model | `openai` |
 | `OPENAI_DEFAULT_MODEL` | ID of the primary agent model | `openai/gpt-4o` |
+| `OPENAI_DEFAULT_MODEL_CONTEXT_WINDOW` | Default context window tokens | `262144` |
+| `OPENAI_DEFAULT_MODEL_MAX_TOKENS` | Default max completion tokens | `8192` |
 | `OPENAI_API_KEY` | API Key for OpenAI or LiteLLM | - |
 | `OPENAI_API_BASE` | Base URL for the OpenAI provider | `https://api.openai.com/v1` |
 | `GEMINI_API_KEY` | API Key for Google Gemini | - |
 | `BROWSERLESS_BASE_URL` | WebSocket URL for Browserless | - |
-| `OPENCLAW_REQUIRE_CONTROL_UI_PAIRING` | Set to `false` to bypass pairing (Security Risk) | `true` |
+| `CF_NETWORK` | External proxy network name (e.g. Traefik) | (Required) |
 
-## Troubleshooting: Pairing Required (1008)
+## Resource Requirements
+
+To handle skill configuration and heavy agent tasks, it is recommended to allocate at least **8GB of RAM** to the Docker daemon.
+
+- **Minimum**: 4GB
+- **Recommended**: 8GB+
+
+## Troubleshooting
+
+### Exit Code 137 (OOM / Conflict)
+
+If you see **exit code 137** during `openclaw onboard`, it can be due to:
+
+1. **Memory Spike**: Skill scanning is resource-intensive.
+2. **Process Conflict**: The gateway is already running and configured.
+
+**IMPORTANT**: Since this image is **Pre-Configured** via environment variables, you **do not need** to run `openclaw onboard`. Your gateway is already "nailed" and ready to use.
+
+**Recommended Solution**:
+
+- **Skip Onboarding**: Don't run `openclaw onboard`.
+- **Verify Gateway**: Check logs inside the container: `docker logs <container>`
+- **Use Dashboard**: Access the Control UI via your configured proxy URL.
+
+### Pairing Required (1008)
 
 If you see the error `disconnected (1008): pairing required` in the Control UI, it means the Gateway is asking for a one-time device approval.
 
@@ -71,11 +110,12 @@ If you see the error `disconnected (1008): pairing required` in the Control UI, 
 
 ### Option 2: Bypass Pairing (Trusted Networks Only)
 
-If you are running in a private, trusted environment and want to disable the pairing requirement, set this variable to `false`:
+If you are running in a private, trusted environment and want to disable the pairing requirement, set these variables to `true`:
 
 ```yaml
 environment:
-  - OPENCLAW_REQUIRE_CONTROL_UI_PAIRING=false
+  - OPENCLAW_GATEWAY_ALLOW_INSECURE_AUTH=true
+  - OPENCLAW_GATEWAY_DANGEROUSLY_DISABLE_DEVICE_AUTH=true
 ```
 
 > [!WARNING]
