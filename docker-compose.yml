@@ -3,9 +3,11 @@ services:
     build:
       context: ./volume_openclaw
       args:
-        UV_IMAGE_TAG: ${UV_IMAGE_TAG:-python3.14-bookworm-slim}
+        PYTHON_IMAGE_TAG: ${PYTHON_IMAGE_TAG:-python:3.14-slim}
     expose:
       - "18789"
+    ports:
+      - "18790:18789"
     environment:
       HOME: /home/node
       TERM: xterm-256color
