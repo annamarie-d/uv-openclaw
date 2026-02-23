@@ -8,8 +8,10 @@ ulimit -n 65535 2>/dev/null || true
 mkdir -p /home/node/.openclaw
 mkdir -p /home/node/.opencode
 
-# Write dynamic openclaw.json from environment variables (Manual Alignment Mode)
-cat <<EOF > /home/node/.openclaw/openclaw.json
+# Write dynamic openclaw.json if it doesn't exist or if override is enabled
+if [ ! -f /home/node/.openclaw/openclaw.json ] || [ "${OPENCLAW_OVERRIDE_CONFIG}" = "true" ]; then
+    echo "Updating OpenClaw gateway configuration..."
+    cat <<EOF > /home/node/.openclaw/openclaw.json
 {
   "messages": {
     "ackReactionScope": "group-mentions"
@@ -86,6 +88,9 @@ cat <<EOF > /home/node/.openclaw/openclaw.json
   }
 }
 EOF
+else
+    echo "Using existing OpenClaw gateway configuration (OPENCLAW_OVERRIDE_CONFIG is not true)."
+fi
 
 echo "Starting OpenClaw gateway with manual-aligned config..."
 exec openclaw gateway run

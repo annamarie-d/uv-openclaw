@@ -24,11 +24,10 @@ services:
       OPENAI_DEFAULT_MODEL_MAX_TOKENS: ${OPENAI_DEFAULT_MODEL_MAX_TOKENS:-8192}
       BROWSERLESS_BASE_URL: ${BROWSERLESS_BASE_URL}
       BROWSERLESS_TOKEN: ${BROWSERLESS_TOKEN}
+      OPENCLAW_OVERRIDE_CONFIG: ${OPENCLAW_OVERRIDE_CONFIG:-false}
     volumes:
       - openclaw_config:/home/node/.openclaw
       - /var/run/docker.sock:/var/run/docker.sock
-    networks:
-      - default
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:18789/health"]
@@ -36,11 +35,6 @@ services:
       timeout: 10s
       retries: 3
       start_period: 40s
-
-networks:
-  default:
-    external: true
-    name: ${CF_NETWORK:?Please set CF_NETWORK}
 
 volumes:
   openclaw_config:

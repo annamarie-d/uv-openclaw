@@ -30,20 +30,12 @@ A high-performance, containerized OpenClaw Gateway environment optimized for age
 ```yaml
 services:
   openclaw-gateway:
-    image: uv-openclaw
+    image: ghcr.io/bachkukkik/uv-openclaw:latest
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - openclaw_config:/home/node/.openclaw
     environment:
-      - OPENCLAW_GATEWAY_TOKEN=your_secure_token
-      - CF_NETWORK=${CF_NETWORK}
-    networks:
-      - default
-
-networks:
-  default:
-    external: true
-    name: ${CF_NETWORK}
+      - OPENCLAW_GATEWAY_TOKEN=your_secure_token_here
 ```
 
 ## Environment Variables
@@ -55,7 +47,7 @@ networks:
 | `OPENCLAW_GATEWAY_BIND` | Network interface to bind to (`loopback`, `lan`, `all`) | `lan` |
 | `OPENCLAW_GATEWAY_ALLOW_INSECURE_AUTH` | Allow authentication over insecure HTTP | `true` |
 | `OPENCLAW_GATEWAY_DANGEROUSLY_DISABLE_DEVICE_AUTH` | Disable device pairing requirement | `true` |
-| `OPENCLAW_REQUIRE_CONTROL_UI_PAIRING` | Legacy pairing flag | `false` |
+| `OPENCLAW_OVERRIDE_CONFIG` | Overwrite `openclaw.json` on every start | `false` |
 | `DEFAULT_MODEL_PROVIDER` | Provider for the primary agent model | `openai` |
 | `OPENAI_DEFAULT_MODEL` | ID of the primary agent model | `openai/gpt-4o` |
 | `OPENAI_DEFAULT_MODEL_CONTEXT_WINDOW` | Default context window tokens | `262144` |
@@ -64,7 +56,9 @@ networks:
 | `OPENAI_API_BASE` | Base URL for the OpenAI provider | `https://api.openai.com/v1` |
 | `GEMINI_API_KEY` | API Key for Google Gemini | - |
 | `BROWSERLESS_BASE_URL` | WebSocket URL for Browserless | - |
-| `CF_NETWORK` | External proxy network name (e.g. Traefik) | (Required) |
+
+> [!TIP]
+> For a full list of all supported environment variables, see [ENV_VARS.md](file:///Users/bachkukkik/Archives/GitHub_Repo/sandbox/uv-openclaw/ENV_VARS.md).
 
 ## Resource Requirements
 
