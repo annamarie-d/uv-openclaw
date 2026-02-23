@@ -76,6 +76,7 @@ if [ ! -f /home/node/.openclaw/openclaw.json ] || [ "${OPENCLAW_OVERRIDE_CONFIG}
     }
   },
   "plugins": {
+    "enabled": false,
     "entries": {
       "google-antigravity-auth": {
         "enabled": false
