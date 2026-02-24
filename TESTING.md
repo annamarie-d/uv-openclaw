@@ -61,8 +61,8 @@ Check the logs to ensure the gateway started with the preconfigured token:
 # Verify OpenClaw Gateway
 cat /home/node/.openclaw/openclaw.json
 
-# Verify Opencode CLI
-opencode --help
+# Verify Opencode CLI configuration
+cat /home/node/.config/opencode/opencode.json
 
 # Verify OpenSpec CLI
 openspec --version
@@ -164,3 +164,21 @@ Verify that the gateway can bootstrap from zero without user input.
 - **Scenario**: `OPENAI_API_BASE` is provided without `OPENAI_API_KEY`.
 - **Fail Message**: Gateway may start but agent tasks will fail with `401 Unauthorized`.
 - **Verification**: Run `openclaw status --deep` inside the container to check provider health.
+
+### 9. Full System Check (Automated Routine)
+
+Run this one-liner in the container terminal for a comprehensive status report:
+
+```bash
+echo "--- SYSTEM CHECK ---"
+echo "UV: $(uv --version)"
+echo "Opencode: $(opencode --version 2>/dev/null || echo 'Not found')"
+echo "OpenSpec: $(openspec --version 2>/dev/null || echo 'Not found')"
+echo "Node: $(node --version)"
+echo "GH: $(gh --version)"
+echo "OpenClaw JSON: $(ls -l /home/node/.openclaw/openclaw.json)"
+echo "OpenCode JSON: $(ls -l /home/node/.config/opencode/opencode.json)"
+echo "--------------------"
+```
+
+*Expected Result: All tools return versions, and both JSON files are confirmed to exist.*
