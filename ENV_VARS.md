@@ -6,7 +6,7 @@ This document provides a comprehensive list of all environment variables support
 
 | Variable | Description | Default |
 | :--- | :--- | :--- |
-| `PYTHON_IMAGE_TAG` | Docker image tag for the `uv` base. | `python:3.14-slim` |
+| `OPENCLAW_IMAGE` | Docker image tag for the base image. | `alpine/openclaw:main` |
 | `OPENCLAW_GATEWAY_TOKEN` | Secret token for dashboard and API authentication. | **(Required)** |
 | `OPENCLAW_GATEWAY_PORT` | Port the gateway listens on inside the container. | `18789` |
 | `OPENCLAW_GATEWAY_BIND` | Network interface to bind (`loopback`, `lan`, `all`). | `lan` |
@@ -42,5 +42,5 @@ These variables configure the primary model used by agents.
 | :--- | :--- | :--- |
 | `HOME` | Home directory inside the container. | `/home/node` |
 | `TERM` | Terminal type for interactive shells. | `xterm-256color` |
-| `NO_ONBOARD` | Disables the interactive onboarding wizard. | `1` |
-| `OPENCLAW_NO_PROMPT` | Disables interactive prompts in the CLI. | `1` |
+| `OPENCLAW_GATEWAY_NO_ONBOARD` | Disables the interactive onboarding wizard. | `1` |
+| `OPENCLAW_GATEWAY_NO_PROMPT` | Disables interactive prompts in the CLI. | `1` |
