@@ -12,6 +12,7 @@ This document provides a comprehensive list of all environment variables support
 | `OPENCLAW_GATEWAY_BIND` | Network interface to bind (`loopback`, `lan`, `all`). | `lan` |
 | `OPENCLAW_GATEWAY_ALLOW_INSECURE_AUTH` | Allow login over HTTP (non-HTTPS). | `true` |
 | `OPENCLAW_GATEWAY_DANGEROUSLY_DISABLE_DEVICE_AUTH` | Disable one-time device pairing requirement. | `true` |
+| `OPENCLAW_GATEWAY_DANGEROUSLY_ALLOW_HOST_HEADER_ORIGIN_FALLBACK` | Allow Host-header origin fallback for non-loopback access. | `true` |
 | `OPENCLAW_OVERRIDE_CONFIG` | If `true`, overwrites `openclaw.json` on every startup. | `false` |
 
 ## LLM Model configuration
