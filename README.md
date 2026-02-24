@@ -20,6 +20,7 @@ A high-performance, containerized OpenClaw Gateway environment optimized for age
 | **Docker CLI** | For managing Docker environments (DooD mode). |
 | **Node.js** | Runtime for OpenClaw and custom scripts. |
 | **Opencode** | Specialized AI agent for code modification and repository analysis. |
+| **OpenSpec (OPSX)** | Specification-driven agentic workflow tool for structured development. |
 
 ## Quick Start (Dokploy / Docker Compose)
 

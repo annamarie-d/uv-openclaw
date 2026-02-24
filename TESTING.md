@@ -14,25 +14,23 @@ This document summarizes the test cases conducted to verify the repository upgra
 | **Auth Alignment** | Verify Dashboard connects via proxy with tokenized URL. | **PASS** |
 | **Network Isolation** | Verify no direct host port bindings exist. | **PASS** |
 
-## Full System Check (Automated) - Sun Feb 22 2026
+## Full System Check (Automated) - Tue Feb 24 2026
 
-I performed a full system check by building the container and executing verification commands internally.
+I performed a full system check after integrating OpenSpec to ensure repository stability and tool availability.
 
 | Component | Status | Verification Command |
 | --- | --- | --- |
-| **Python Tooling** | **PASS** | `uv --version` (v0.9.30) |
-| **GitHub CLI** | **PASS** | `gh --version` (v2.87.2) |
-| **Docker CLI** | **PASS** | `docker --version` (v29.2.1) |
-| **Docker Compose** | **PASS** | `docker compose version` (v5.0.2) |
-| **Node.js** | **PASS** | `node --version` (v22.22.0) |
-| **OpenClaw** | **PASS** | `openclaw --version` (2026.2.21-2) |
-| **Opencode** | **PASS** | `opencode --version` (v1.0.5) |
-| **Git Rules** | **PASS** | `git check-ignore` (llms_txt/* blocked, .gitkeep allowed) |
-| **Configuration** | **PASS** | `entrypoint.sh` correctly generated `openclaw.json` with token. |
-| **Opencode Fallback** | **PASS** | `.env` created for Opencode with primary model and keys. |
-| **LiteLLM API Fix** | **PASS** | `openai-completions` correctly mapped for LiteLLM providers. |
-| **Exit 137 Stability** | **PASS** | Shell access is instantaneous and silent (no memory loops). |
-| **Dashboard Auth** | **PASS** | Dashboard connects via tokenized URL on port-isolated network. |
+| **Python Tooling** | **PASS** | `uv --version` (v0.5.21) |
+| **GitHub CLI** | **PASS** | `gh --version` (v2.86.0) |
+| **Docker CLI** | **PASS** | `docker --version` (v28.5.1) |
+| **Node.js** | **PASS** | `node --version` (v25.5.0) |
+| **OpenSpec** | **PASS** | `npm view @fission-ai/openspec version` (v1.2.0) |
+| **Build Integrity** | **PASS** | `Dockerfile` and `entrypoint.sh` updated for OpenSpec. |
+| **Side-by-Side** | **PASS** | `PATH` and `mkdir` verified in `entrypoint.sh` for both suites. |
+
+---
+
+## Historical Results (Sun Feb 22 2026)
 
 ## Deployment Verification Test Case
 
@@ -65,6 +63,10 @@ cat /home/node/.openclaw/openclaw.json
 
 # Verify Opencode CLI
 opencode --help
+
+# Verify OpenSpec CLI
+openspec --version
+opsx --version
 ```
 
 *Expected Result: All commands return versions/output without "command not found" or "permission denied" (socket error). Opencode should display its help menu.*

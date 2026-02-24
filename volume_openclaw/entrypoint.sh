@@ -5,11 +5,12 @@ set -e
 ulimit -n 65535 2>/dev/null || true
 
 # Ensure all tool paths are included in the environment
-export PATH=$PATH:/root/.openclaw/bin:/home/node/.openclaw/bin:/root/.opencode/bin:/root/.cargo/bin:/root/.local/bin
+export PATH=$PATH:/root/.openclaw/bin:/home/node/.openclaw/bin:/root/.opencode/bin:/root/.openspec/bin:/root/.cargo/bin:/root/.local/bin
 
 # Ensure directory structure exists
 mkdir -p /home/node/.openclaw
 mkdir -p /home/node/.opencode
+mkdir -p /home/node/.openspec
 mkdir -p /home/node/.openclaw/workspace
 
 # 1. Initialize or Reset configuration
