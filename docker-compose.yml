@@ -20,6 +20,8 @@ services:
           memory: 1G
     volumes:
       - openclaw_config:/home/node/.openclaw
+      - opencode_config:/home/node/.config/opencode
+      - gh_config:/home/node/.config/gh
       - /var/run/docker.sock:/var/run/docker.sock
     restart: unless-stopped
     healthcheck:
@@ -31,3 +33,5 @@ services:
 
 volumes:
   openclaw_config:
+  opencode_config:
+  gh_config:
