@@ -50,7 +50,13 @@ RUN curl -fsSL https://opencode.ai/install | bash
 # 8. Install Openspec (Global)
 RUN npm install -g @fission-ai/openspec@latest
 
-# 9. Setup environment
+# 9. Pre-install Skills (learn, opencode-controller, openspec)
+RUN mkdir -p /usr/share/openclaw/skills && \
+    git clone https://github.com/agentskill-sh/learn.git /usr/share/openclaw/skills/learn && \
+    curl -s "https://agentskill.sh/api/agent/skills/opencode-controller/install?owner=openclaw" | jq -r '.skillMd' > /usr/share/openclaw/skills/opencode-controller.md && \
+    curl -s "https://agentskill.sh/api/agent/skills/openspec/install?owner=openclaw" | jq -r '.skillMd' > /usr/share/openclaw/skills/openspec.md
+
+# 10. Setup environment
 ENV HOME=/home/node
 ENV CI=true
 ENV TERM=xterm-256color
